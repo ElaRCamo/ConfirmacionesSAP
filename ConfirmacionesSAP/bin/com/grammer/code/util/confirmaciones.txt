@@ -1,0 +1,155 @@
+package com.grammer.code.frame;
+
+import javax.swing.*;
+import javax.swing.border.AbstractBorder;
+import javax.swing.border.EmptyBorder;
+
+import com.grammer.code.util.TextBubbleBorder;
+import com.jgoodies.forms.factories.DefaultComponentFactory;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.Objects;
+
+public class Confirmaciones extends JFrame {
+    private static final long serialVersionUID = 1L;
+    private final JPanel contentPane;
+    private JTextField NumP = new JTextField(), Quantity = new JTextField();
+    private final JLabel errorRed = new JLabel();
+    private final JLabel error = new JLabel();
+    private final JPanel panelPrincipal = new JPanel();
+    private final JLabel avLogin = new JLabel();
+    private final JLabel avLogina = new JLabel();
+    private final JLabel contador = new JLabel("");
+    private final JLabel noConfir = new JLabel("");
+    private final JLabel numeroParteConf = new JLabel("Número de parte");
+    private final JLabel cantidadConf = new JLabel("Cantidad");
+    private final JButton btnOk = new JButton("OK");
+    private final JPanel panelHistorico = new JPanel();
+    private Image imgStatus = null;
+    private ImageIcon imgSt = null;
+    private final AbstractBorder brdrRight = new TextBubbleBorder(Color.white, 2, 16, 16, false);
+
+    /**
+     * Create the frame.
+     */
+    public Confirmaciones(String usuario) {
+        setTitle("Confirmaciones SAP");
+        setIconImage(Toolkit.getDefaultToolkit().getImage(Confirmaciones.class.getResource("/img/chrecking.png"))); //ícono de la ventana
+        setResizable(false);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 754, 613);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        contentPane.setLayout(null);
+
+        /*---------------------------Ingreso de los Paneles-------------------------------------*/
+        panelPrincipal.setBackground(new Color(0, 81, 149));
+        panelPrincipal.setBounds(0, 0, 748, 584); //setBounds(x, y, width, height)
+        contentPane.add(panelPrincipal);
+        panelPrincipal.setLayout(null);
+
+        /*---------------------------Ingreso del texto de confirmación-------------------------------------*/
+        JLabel lblNewLabel = new JLabel("Confirmaciones SAP");
+        lblNewLabel.setForeground(Color.WHITE);
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNewLabel.setFont(new Font("Segoe UI", Font.BOLD, 30));
+        lblNewLabel.setBounds(0, 11, 748, 36);
+        panelPrincipal.add(lblNewLabel);
+
+        JPanel panelDentro = new JPanel();
+        panelDentro.setBackground(new Color(255, 255, 255));
+        panelDentro.setBounds(20, 63, 706, 264);
+        panelDentro.setBorder(brdrRight);//bordes redondos
+        panelPrincipal.add(panelDentro);
+        panelDentro.setLayout(null);
+
+        JLabel lblNoConf = new JLabel("Documento SAP");
+        lblNoConf.setForeground(Color.DARK_GRAY);
+        lblNoConf.setBounds(366, 176, 265, 36);
+        panelDentro.add(lblNoConf);
+        lblNoConf.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNoConf.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+
+        NumP.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        NumP.setBounds(189, 46, 154, 36);
+        NumP.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(51, 50, 49)));
+        panelDentro.add(NumP);
+        NumP.setColumns(10);
+        NumP.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    Quantity.requestFocus();
+                }
+            }
+        });
+
+        Quantity.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+        Quantity.setBounds(189, 112, 154, 36);
+        Quantity.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0, new Color(51, 50, 49)));
+        panelDentro.add(Quantity);
+        Quantity.setColumns(10);
+
+        JLabel lblCantidad = new JLabel("Cantidad");
+        lblCantidad.setForeground(Color.DARK_GRAY);
+        lblCantidad.setBounds(20, 125, 154, 36);
+        panelDentro.add(lblCantidad);
+        lblCantidad.setHorizontalAlignment(SwingConstants.CENTER);
+        lblCantidad.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+
+        contador.setBounds(25, 93, 130, 36);
+        panelDentro.add(contador);
+        contador.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+        contador.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JLabel lblNumDeParte = new JLabel("Número de parte");
+        lblNumDeParte.setForeground(Color.DARK_GRAY);
+        lblNumDeParte.setBounds(20, 46, 163, 36);
+        panelDentro.add(lblNumDeParte);
+        lblNumDeParte.setHorizontalAlignment(SwingConstants.CENTER);
+        lblNumDeParte.setFont(new Font("Segoe UI", Font.PLAIN, 20));
+
+        btnOk.setBackground(new Color(0, 81, 149));
+        btnOk.setForeground(Color.WHITE);
+        btnOk.setBounds(230, 198, 68, 36);
+        btnOk.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        panelDentro.add(btnOk);
+
+        avLogin.setBounds(20, 378, 39, 39);
+        panelDentro.add(avLogin);
+        avLogin.setHorizontalAlignment(SwingConstants.LEFT);
+
+        avLogina.setBounds(347, 378, 39, 39);
+        panelDentro.add(avLogina);
+        avLogina.setHorizontalAlignment(SwingConstants.LEFT);
+        error.setBackground(Color.RED);
+
+        error.setBounds(415, 55, 265, 27);
+        panelDentro.add(error);
+        error.setForeground(Color.WHITE);
+        error.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        error.setHorizontalAlignment(SwingConstants.CENTER);
+
+        JLabel version = DefaultComponentFactory.getInstance().createLabel("Version 5.J1");
+        version.setForeground(Color.WHITE);
+        version.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        version.setBounds(10, 559, 118, 14);
+        panelPrincipal.add(version);
+        
+                panelHistorico.setBounds(20, 312, 706, 259);
+                panelPrincipal.add(panelHistorico);
+                panelHistorico.setBackground(Color.WHITE);
+                panelHistorico.setBorder(brdrRight);
+                panelHistorico.setLayout(null);
+                
+                        errorRed.setBounds(588, 272, 118, 30);
+                        panelHistorico.add(errorRed);
+                        errorRed.setForeground(new Color(220, 20, 60));
+                        errorRed.setFont(new Font("Segoe UI", Font.PLAIN, 25));
+                        errorRed.setHorizontalAlignment(SwingConstants.CENTER);
+    }
+}
